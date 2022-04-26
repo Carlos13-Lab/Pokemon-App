@@ -1,18 +1,19 @@
 .card {
   display: flex;
   flex-direction: column;
-  background-color: rgba(253, 254, 254 , 0.7);
+  background-color: rgba(40, 39, 39, 0.7);
   border-radius: 1rem;
   margin: 0.5rem 0.1rem;
-  width: 35pc;
-  height: 50pc;
+  width: 25pc;
+  height: 30pc;
   display: flex;
+  border: 5px solid rgba(0, 0, 0, 1.5);
 }
 .card:hover {
-  opacity: 1;
-  box-shadow: 1px 1px #FDFEFE, 1px 1px #FDFEFE, 1px 1px #FDFEFE;
-  -webkit-transform: translateX(-3px);
-  transform: translateX(-3px);
+  opacity: 4;
+  box-shadow: 3px 3px #4c4c4c, 3px 3px #444444, 3px 3px #484848;
+  -webkit-transform: translateX(-12px);
+  transform: translateX(-5px);
 }
 .imagen{
   height: 100%;
@@ -49,6 +50,7 @@
   width: 100%;
   justify-content: center;
   text-decoration: none;
+  color: rgb(254, 254, 254);
 }
 .middleInf{
   width: 100%;

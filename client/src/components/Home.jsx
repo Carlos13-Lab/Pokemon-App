@@ -87,7 +87,7 @@ export default function Home() {
         >
           <MdRefresh />
         </button>
-        <select
+        <select 
           className="formSelect"
           onChange={(e) => {
             handleOrderByName(e);

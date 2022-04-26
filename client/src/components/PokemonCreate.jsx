@@ -101,167 +101,93 @@ export default function PokemonCreate(props) {
     });
     history.push("/home") 
   }
-  function handleDelete(e) {
-    setInput({
-      ...input,
-      types: input.types.filter((t) => t !== e),
-    });
-  }
 
   return (
-    <div className="create">
-      <div className="divBtnCreate">
-        <Link to="/home">
-          <button className="btnBackCreate">Back</button>
-        </Link>
-      </div>
-      <div className="content">
-        <div className="divData">
-          <div>
-            <h1>Crea tu Pokemon</h1>
-            <img src="https://i.gifer.com/origin/d8/d80f886437ed5e505648c5c36ce17fcc_w200.gif" alt="" />
-          </div>
-          <div className="divForm">
-            <form
-              onSubmit={(e) => handleSubmit(e)}
-              className="form"
-              id="formulario"
-            >
-              <div className="midInfCreate">
-                <div className="midLeft">
-                  <div id='controled'>
-                    <label>Name:</label>
-                    <input
-                      type="text"
-                      value={input.name.toLocaleLowerCase()}
-                      name="name"
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <div id='controlerColor'>{errors.name && <p> {errors.name}</p>}</div>
-                  </div>
-                  <div id='controled'>
-                    <div>
-                      <label>Image Card:</label>
-                      <input
-                        type="text"
-                        value={input.img}
-                        name="img"
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </div>
-                    <div id='controlerColor'>{errors.img && <p> {errors.img}</p>}</div>
-                  </div>
-
-                  <div id='controled'>
-                    <label>Height:</label>
-                    <input
-                      type="number"
-                      value={input.height}
-                      name="height"
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <div id='controlerColor'>{errors.height && <p> {errors.height}</p>}</div>
-                  </div>
-                  <div id='controled'>
-                    <label>Weight:</label>
-                    <input
-                      type="number"
-                      value={input.weight}
-                      name="weight"
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <div id='controlerColor'>{errors.weight && <p> {errors.weight}</p>}</div>
-                  </div>
-                  <div id='controled'>
-                    <label>HP:</label>
-                    <input
-                      type="number"
-                      value={input.hp}
-                      name="hp"
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <div id='controlerColor'>{errors.hp && <p> {errors.hp}</p>}</div>
-                  </div>
-                  <div id='controled'>
-                    <label>Speed:</label>
-                    <input
-                      type="number"
-                      value={input.speed}
-                      name="speed"
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <div id='controlerColor'>{errors.speed && <p> {errors.speed}</p>}</div>
-                  </div>
-                  <div id='controled'>
-                    <label>Attack:</label>
-                    <input
-                      type="number"
-                      value={input.attack}
-                      name="attack"
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <div id='controlerColor'>{errors.attack && <p> {errors.attack}</p>}</div>
-                  </div>
-                  <div id='controled'>
-                    <label>Strength:</label>
-                    <input
-                      type="number"
-                      value={input.strength}
-                      name="strength"
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <div id='controlerColor'>{errors.strength && <p> {errors.strength}</p>}</div>
-                  </div>
-                  <div id='controled'>
-                    <label>Defense:</label>
-                    <input
-                      type="number"
-                      value={input.defense}
-                      name="defense"
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <div id='controlerColor'>{errors.defense && <p> {errors.defense}</p>}</div>
-                  </div>
-                </div>
-                <div className="midRight">
-              <div>
-                <label>Types:</label>
-                <select onChange={(e) => handleSelect(e)}>
-                  <option value="select">Select</option>
-                  {types &&
-                    types.map((e) => (
-                      <option name="types" key={e.name} value={e.name}>
-                        {e.name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div>
-                {input.types?.map((e) => (
-                  <div key={e}>
-                    <label>{e}</label>
-                    <button onClick={() => handleDelete(e)}>x</button>
-                  </div>
-                ))}
-                <div id='controlerColor'>{errors.types && <p> {errors.types}</p>}</div>
-              </div>
-              <div>
-                <button
-                  className="btnCreate"
-                  disabled={button}
-                  form="formulario"
-                >
-                  Create Pokemon
-                </button>
-              </div>
+    <div className='container'>
+      <Link to='/home'>
+        <button className='btnBack1' >
+          Back
+        </button>
+      </Link>
+      <form className='form' onSubmit={handleSubmit}>
+        <h1>Crea tu Pokemon</h1>
+        <section className='datacontainer'>
+          <div className='flexform'>
+            <div className='flexinput'>
+              <label>Nombre:</label>
+              <input
+                className='input'
+                type='text'
+                placeholder='Nombre'
+                name='name'
+                value={input.name}
+                onChange={handleChange}
+                autoComplete='off'
+              />
             </div>
-              </div>
-            </form>
-            
+            <div className='flexinput'>
+              <label>Vida:</label>
+              <input className='input' type='number' placeholder='Vida' name='hp' value={input.hp} onChange={handleChange} />
+            </div>
           </div>
+          <div className='flexform'>
+            <div className='flexinput'>
+              <label>Fuerza:</label>
+              <input className='input' type='number' placeholder='Fuerza' name='strength' value={input.strength} onChange={handleChange} />
+            </div>
+            <div className='flexinput'>
+              <label>Defensa:</label>
+              <input className='input' type='number' placeholder='Defensa' name='defense' value={input.defense} onChange={handleChange} />
+            </div>
+          </div>
+          <div className='flexform'>
+            <div className='flexinput'>
+              <label>Velocidad:</label>
+              <input className='input' type='number' placeholder='Velocidad' name='speed' value={input.speed} onChange={handleChange} />
+            </div>
+            <div className='flexinput'>
+              <label>Altura:</label>
+              <input className='input' type='number' placeholder='Altura' name='height' value={input.height} onChange={handleChange} />
+            </div>
+          </div>
+          <div className='flexform'>
+            <div className='flexinput'>
+              <label>Peso:</label>
+              <input className='input' type='number' placeholder='Peso' name='weight' value={input.weight} onChange={handleChange} />
+            </div>
+            <div className='flexinput'>
+              <label>Imagen:</label>
+              <input
+                className='input'
+                type='text'
+                placeholder='url...'
+                name='img'
+                value={input.img}
+                onChange={handleChange}
+                autoComplete='off'
+              />
+            </div>
+          </div>
+        </section>
+        <label style={{ fontWeight: "bold" }}>Tipo:</label>
+        <div className='checkcontainer'>
+          {types?.map((e) => {
+            return (
+              <div key={e.name}>
+                <p className={e.name}>{e.name}</p>
+                <input type='checkbox' name={e.name} value={e.name} onChange={(e) => handleSelect(e)} />
+              </div>
+            );
+          })}
+          {input.types.length > 2 ? <p className='errormessage2'>Seleccione Máximo 2 Tipos</p> : null}
         </div>
-      </div>
+        <button className='btnsend' type='submit'>
+          Enviar
+        </button>
+      </form>
     </div>
   );
 }
 
+
+ 

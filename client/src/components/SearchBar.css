@@ -9,10 +9,10 @@
     width: 100%;
     padding: 0.5rem 4rem 0.5rem 0.5rem;
     box-sizing: border-box;
-  
+    background-color: rgb(49, 47, 47);
     border-style: solid;
     border-width: 2px;
-    border-color: #264653;
+    border-color: #d6e2e7;
     border-radius: 0.5rem;
   
     font-size: 1.5rem;
@@ -21,6 +21,7 @@
   .searchBar > input::placeholder {
     font-weight: 300;
     font-size: 1.25rem;
+    color: #fff;
   }
   
   .searchBar > button {
@@ -28,7 +29,8 @@
     top: calc(0.5rem + 2px);
     right: calc(0.5rem + 2px);
     font-size: 1rem;
-    color: #264653;
+    color: #ffffff;
+      cursor: pointer;
   
     display: flex;
     justify-content: center;
@@ -39,16 +41,16 @@
     border-radius: 9999px;
     border-style: solid;
     border-width: 1px;
-    border-color: #264653;
+    border-color: #b5b9bb;
     background-color: transparent;
   margin-top: 10px;
     transition: 250ms;
   }
   
   .searchBar > button:hover {
-    color:white;
-    background-color: #001d3d;
+    color:rgb(0, 0, 0);
+    background-color: #9d2b2b;
   }
   .searchBar > input {
-    border-color: black;
+    border-color: rgb(242, 242, 242);
   }

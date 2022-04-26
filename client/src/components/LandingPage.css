@@ -1,6 +1,6 @@
 .body-landing{
     
-    background-image: url("./wallpokemon.jpg");
+    background-image: url("./381583.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     height : 100vh;
@@ -12,11 +12,12 @@
 
 .btn-landing{
   position: absolute;
+  cursor: pointer;
   top: 8%;
-  --glow-color: rgb(217, 176, 255);
-  --glow-spread-color: rgba(191, 123, 255, 0.781);
-  --enhanced-glow-color: rgb(231, 206, 255);
-  --btn-color: rgb(100, 61, 136);
+  --glow-color: rgb(168, 197, 216);
+  --glow-spread-color: rgba(131, 138, 142, 0.781);
+  --enhanced-glow-color: rgb(59, 52, 67);
+  --btn-color: rgb(52, 119, 191);
   border: .25em solid var(--glow-color);
   padding: 1em 3em;
   color: var(--glow-color);

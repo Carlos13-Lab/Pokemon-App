@@ -5,16 +5,16 @@
 }
 .detailCard {
   
-  background-color: rgba(253, 254, 254 );
+  background-color: rgb(57, 55, 55);
   width: 60%;
   display: inline-flex;
   justify-content: space-around;
   height: 450px;
   border: solid 4px #2b2d42;
   border-radius: 2rem;
-  color: black;
+  color: rgb(240, 231, 231);
   align-items: center;
-  
+  box-shadow: 1em 1em rgb(236, 236, 235);
   justify-items: center;
   font-family: 'Mulish', sans-serif;
   
