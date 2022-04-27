@@ -7,15 +7,17 @@ import SearchBar from "./SearchBar";
 export default function Nav() {
   return (
     <div className='nav'>
-      <div className='titleNav' >
-        <img src={icon} alt="" height='60px' width='170px'/>
+      <div className='titleNav'>
+        <img src='https://1000marcas.net/wp-content/uploads/2020/01/Pok%C3%A9mon-emblema.jpg' alt='' height='90px' width='170px' />
       </div>
-      <div className="searchPaginate">
+      <div className='searchPaginate'>
         <SearchBar />
-        </div>
+      </div>
       <div className='divBtn'>
-        <Link to="/pokemons"> <button className='btnCreated'>
-          Create Pokemon</button></Link>
+        <Link to='/pokemons'>
+          {" "}
+          <button className='btnCreated'>Create Pokemon</button>
+        </Link>
       </div>
     </div>
   );
