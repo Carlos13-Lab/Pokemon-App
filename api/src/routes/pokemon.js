@@ -1,7 +1,7 @@
 const axios = require('axios');
 const express = require('express');
 const { Pokemon, Type } = require('../db')
-const urlLimit40 = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=15`
+const urlLimit40 = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=13`
 const urlAll = `http://pokeapi.co/api/v2/pokemon/`
 
 const router = express.Router();
