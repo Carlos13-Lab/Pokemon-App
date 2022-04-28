@@ -9,7 +9,7 @@ export function getPokemons() {
       loading: true,
     });
 
-    var json = await axios.get("http://localhost:3001/pokemons");
+    var json = await axios.get("/pokemons");
 
     return dispatch({
       type: "GET_POKEMONS",
@@ -22,7 +22,7 @@ export function getPokemonName(name) {
   
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3001/pokemons?name=" + name)
+      const json = await axios.get("/pokemons?name=" + name)
       // console.log(json.data)
 
       return dispatch({
@@ -66,7 +66,7 @@ export function orderByStrength(payload) {
 }
 export function getTypes(name) {
   return async function (dispatch) {
-    var json = await axios.get(`http://localhost:3001/types`);
+    var json = await axios.get(`/types`);
     return dispatch({
       type: "GET_TYPES",
       payload: json.data,
@@ -75,14 +75,14 @@ export function getTypes(name) {
 }
 export function postPokemon(payload) {
   return async function (dispatch) {
-    var json = await axios.post(`http://localhost:3001/pokemons`, payload);
+    var json = await axios.post(`/pokemons`, payload);
     return json;
   };
 }
 export function getDetail(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`http://localhost:3001/pokemons/${id}`);
+      var json = await axios.get(`/pokemons/${id}`);
       return dispatch({
         type: "GET_DETAILS",
         payload: json.data,
