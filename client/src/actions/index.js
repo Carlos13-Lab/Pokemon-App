@@ -64,7 +64,7 @@ export function orderByStrength(payload) {
     payload,
   };
 }
-export function getTypes(name) {
+export function getTypes() {
   return async function (dispatch) {
     var json = await axios.get(`/types`);
     return dispatch({
@@ -74,7 +74,7 @@ export function getTypes(name) {
   };
 }
 export function postPokemon(payload) {
-  return async function (dispatch) {
+  return async function () {
     var json = await axios.post(`/pokemons`, payload);
     return json;
   };
