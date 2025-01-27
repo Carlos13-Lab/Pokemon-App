@@ -10,7 +10,7 @@ export function getPokemons() {
     });
 
     var json = await axios.get("/pokemons");
-
+     console.log(json)
     return dispatch({
       type: "GET_POKEMONS",
       payload: json.data,

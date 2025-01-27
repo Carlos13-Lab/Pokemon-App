@@ -1,13 +1,13 @@
-const inicialState = {
+const initialState = {
   pokemons: [],
   allPokemons: [],
   types: [],
   detail: [],
   isLoadingPokemons: true,
-  pokemonsTypesFilter: [], //estado de los pokemons filtrados
+  pokemonsTypesFilter: [], // estado de los pokemons filtrados
 };
 
-export default function rootReducer(state = inicialState, action) {
+export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case "GET_POKEMONS":
       return {
@@ -16,22 +16,29 @@ export default function rootReducer(state = inicialState, action) {
         allPokemons: action.payload,
         isLoadingPokemons: action.loading,
       };
+
     case "GET_POKEMON_NAME":
       return {
         ...state,
-        pokemons: action.payload 
-      }    
-      
+        pokemons: action.payload,
+      };
 
     case "FILTER_POKEMONS_CREATED":
-      const allPokemons1 = state.allPokemons
-      // console.log(allPokemons1)
-      const statusFiltered2 = action.payload === "Created" ? allPokemons1.filter(el => el.createdByUser) : allPokemons1.filter(el => !el.createdByUser) 
-      // console.log(statusFiltered2)
+      const allPokemons1 = state.allPokemons;
+      console.log(allPokemons1);
+      const statusFiltered2 =
+        action.payload === "Created"
+          ? allPokemons1.filter((el) => el.createdByUser)
+          : allPokemons1.filter((el) => !el.createdByUser);
       return {
         ...state,
-        pokemons: action.payload === 'All' ? allPokemons1 : statusFiltered2.length ? statusFiltered2 : ['Pokemons created'],
-      }
+        pokemons:
+          action.payload === "All"
+            ? allPokemons1
+            : statusFiltered2.length
+              ? statusFiltered2
+              : ["Pokemons created"],
+      };
 
     case "FILTER_BY_TYPE":
       const allPokemons2 = state.allPokemons;
@@ -45,38 +52,20 @@ export default function rootReducer(state = inicialState, action) {
       };
 
     case "ORDER_BY_NAME":
-      
-      let sortedArray =
+      const sortedArray =
         action.payload === "asc"
-          ? state.pokemons.sort((a, b) => {
-              if (a.name > b.name) return 1;
-              if (a.name < b.name) return -1;
-              else return 0;
-            })
-          : state.pokemons.sort((a, b) => {
-              if (a.name > b.name) return -1;
-              if (a.name < b.name) return 1;
-              else return 0;
-            });
-
+          ? state.pokemons.sort((a, b) => (a.name > b.name ? 1 : -1))
+          : state.pokemons.sort((a, b) => (a.name > b.name ? -1 : 1));
       return {
         ...state,
         pokemons: sortedArray,
       };
 
     case "ORDER_BY_STRENGTH":
-      let sortedStrength =
+      const sortedStrength =
         action.payload === "min"
-          ? state.pokemons.sort((a, b) => {
-            if (a.strength > b.strength) return 1;
-            if (a.strength < b.strength) return -1;
-            else return 0;
-          })
-          : state.pokemons.sort((a, b) => {
-            if (a.strength > b.strength) return -1;
-            if (a.strength < b.strength) return 1;
-            else return 0;
-          });
+          ? state.pokemons.sort((a, b) => (a.strength > b.strength ? 1 : -1))
+          : state.pokemons.sort((a, b) => (a.strength > b.strength ? -1 : 1));
       return {
         ...state,
         pokemons: sortedStrength,
@@ -87,7 +76,6 @@ export default function rootReducer(state = inicialState, action) {
         ...state,
         types: action.payload,
       };
-      
 
     case "POST_POKEMON":
       return {
@@ -99,30 +87,28 @@ export default function rootReducer(state = inicialState, action) {
       return {
         ...state,
         detail: [action.payload],
-       
       };
+
     case "RESET_DETAIL":
-      const allPokemons4 = state.allPokemons;
-      const types1 = state.types;
       return {
         ...state,
         detail: [],
-        pokemons: allPokemons4,
-        types: types1,
+        pokemons: state.allPokemons,
+        types: state.types,
       };
+
     case "LOADER_TRUE":
-      //camiar el loader a true
       return {
         ...state,
-        loader: true,
+        isLoadingPokemons: true,
       };
+
     case "LOADER_FALSE":
-      //cambiar el loader a false
       return {
         ...state,
-        loader: false,
+        isLoadingPokemons: false,
       };
-     
+
     default:
       return state;
   }

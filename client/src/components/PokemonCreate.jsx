@@ -104,13 +104,13 @@ export default function PokemonCreate(props) {
 
   return (
     <div className='container'>
-      <Link to='/home'>
+      <form className='form' onSubmit={handleSubmit}>
+        <h1>Crea tu Pokemon</h1>
+              <Link to='/home'>
         <button className='btnBack1' >
           Back
         </button>
       </Link>
-      <form className='form' onSubmit={handleSubmit}>
-        <h1>Crea tu Pokemon</h1>
         <section className='datacontainer'>
           <div className='flexform'>
             <div className='flexinput'>

@@ -1,7 +1,7 @@
 const axios = require('axios');
 const express = require('express');
 const { Pokemon, Type } = require('../db')
-const urlLimit40 = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=13`
+const urlLimit40 = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=66// `
 const urlAll = `http://pokeapi.co/api/v2/pokemon/`
 
 const router = express.Router();
@@ -24,7 +24,7 @@ const getPokeApi = async () => {
                 types: Todos.data.types.map((e) => e.type.name),
                 strength: Todos.data.stats[1].base_stat
             };
-            //   console.log("Lo que me traigo de la api",PokeArray)
+
             PokeArray.push(TodosPokes)
         };
         return PokeArray;
