@@ -17,21 +17,21 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
 require("dotenv").config();
 const express = require("express");
+const { conn } = require("./src/db.js");
 
 const app = express();
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("¡Backend desplegado en Vercel!");
-});
+// Importar rutas
+const routes = require("./src/routes");
+app.use("/api", routes);
 
-// Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
-  server.listen(process.env.PORT, () => {
-    console.log("%s listening at port," + process.env.PORT); // eslint-disable-line no-console
+// Sincronizar la base de datos y luego iniciar el servidor
+const PORT = process.env.PORT || 3001;
+conn.sync({ force: false }).then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
-})
+});
