@@ -20,6 +20,10 @@
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 
+app.get("/", (req, res) => {
+  res.send("¡Backend desplegado en Vercel!");
+});
+
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
   server.listen(process.env.PORT, () => {
