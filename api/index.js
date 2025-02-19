@@ -26,7 +26,7 @@ app.use(express.json());
 
 // Importar rutas
 const routes = require("./src/routes");
-app.use("/api", routes);
+app.use("/", routes);
 
 // Sincronizar la base de datos y luego iniciar el servidor
 const PORT = process.env.PORT || 3001;
