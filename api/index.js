@@ -19,6 +19,11 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+require("dotenv").config();
+const express = require("express");
+
+const app = express();
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("¡Backend desplegado en Vercel!");
