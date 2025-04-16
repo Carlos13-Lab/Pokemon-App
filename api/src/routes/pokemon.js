@@ -1,6 +1,6 @@
 const axios = require('axios');
 const express = require('express');
-const { Pokemon, Type } = require('../db')
+const { Pokemon, Type } = require('../database/config')
 const urlLimit40 = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=26// `
 const urlAll = `http://pokeapi.co/api/v2/pokemon/`
 

@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { Router } = require("express");
-const { Type } = require("../db");
+const { Type } = require("../database/config");
 const url = "https://pokeapi.co/api/v2/type"
 
 const router = Router();
