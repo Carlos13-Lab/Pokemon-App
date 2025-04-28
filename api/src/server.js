@@ -25,7 +25,7 @@ server.use((req, res, next) => {
   next();
 });
 
-server.use('/api/allPokemons', Pokemon);
+server.use('/api/pokemon', Pokemon);
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

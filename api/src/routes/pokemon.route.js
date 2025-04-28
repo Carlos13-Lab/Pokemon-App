@@ -5,7 +5,13 @@ const controller = new PokemnonController();
 
 const route = Router();
 
-
-route.get("/", controller.getAllpokemon);
+route.get("/", (req, res, next) => {
+    const { name } = req.query;
+    if (name) {
+        controller.getPokename(req, res, next); // Si hay un parámetro "name", llama a getPokename
+    } else {
+        controller.getAllpokemon(req, res, next); // Si no hay "name", llama a getAllpokemon
+    }
+});
 
 module.exports = route;

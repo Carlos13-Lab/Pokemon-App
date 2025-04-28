@@ -4,7 +4,7 @@ const PokemonRepository = require("../Repository/Pokemon.repository");
 class PokemonService {
     constructor() {
         this.pokemonRepository = new PokemonRepository();
-        this.getPokeApi = this.getPokeApi.bind(this);
+        this.getAllPokes = this.getAllPokes.bind(this);
     }
 
 
@@ -24,6 +24,32 @@ class PokemonService {
             throw new Error("Error fetching Pokémon data from the database");
         }
     }
+    async getAllPokes() {
+        try {
+            const pokeApi = await this.getPokeApi();
+            const pokemonDb = await this.getPokesDb();
+            const allPokes = [...pokeApi, ...pokemonDb];
+            return allPokes;
+        } catch (error) {
+            throw new Error("Error fetching all Pokémon data");
+        }
+    }
+
+    async getPokename(name) {
+        try {
+            const pokeApi = await this.pokemonRepository.getPokeApi();
+            const pokemonDb = await this.pokemonRepository.getPokesDb();
+            const allPokes = [...pokeApi, ...pokemonDb];
+            const pokeName = allPokes.filter((e) => e.name.toLowerCase().includes(name.toLowerCase()));
+            console.log(pokeName);
+            return pokeName;
+        } catch (error) {
+            throw new Error("Error fetching Pokémon data by name");
+        }
+    }
+        
+
+    
 }
 
-module.exports = PokemonService;
+module.exports = PokemonService; 

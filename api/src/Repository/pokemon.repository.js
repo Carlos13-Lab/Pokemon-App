@@ -8,7 +8,6 @@ class PokemonRepository {
     constructor() {
         this.urlLimit40 = urlLimit40;
         this.urlAll = urlAll;
-
         this.getPokeApi = this.getPokeApi.bind(this);
     }
 
@@ -67,7 +66,23 @@ class PokemonRepository {
             throw error;
         }
     }
-}
 
+    async getApiname(name) {
+        try {
+            const { data } = await axios.get(`${this.urlAll}${name}`);
+            const poke = {
+                id: data.id,
+                name: data.name,
+                img: data.sprites.other.home.front_default,
+                attack: data.stats[1].base_stat,
+                types: data.types.map((e) => e.type.name),
+            };
+            return poke;
+        } catch (error) {
+            console.error('Error fetching Pokémon by name:', error);
+            throw error;
+        }
+    }
+}
 
 module.exports = PokemonRepository;
