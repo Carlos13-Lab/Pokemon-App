@@ -9,6 +9,9 @@ class PokemonRepository {
         this.urlLimit40 = urlLimit40;
         this.urlAll = urlAll;
         this.getPokeApi = this.getPokeApi.bind(this);
+        this.getPokesDb = this.getPokesDb.bind(this);
+        this.getApiname = this.getApiname.bind(this);
+        this.getPokeId = this.getPokeId.bind(this);
     }
 
     async getPokeApi() {
@@ -80,6 +83,54 @@ class PokemonRepository {
             return poke;
         } catch (error) {
             console.error('Error fetching Pokémon by name:', error);
+            throw error;
+        }
+    }
+
+    async getPokeId(id) {   
+        try {
+            const { data } = await axios.get(`${this.urlAll}${id}`);
+            const poke = {
+                id: data.id,
+                name: data.name,
+                img: data.sprites.other.home.front_default,
+                attack: data.stats[1].base_stat,
+                types: data.types.map((e) => e.type.name),
+            };
+            return poke;
+        } catch (error) {
+            console.error('Error fetching Pokémon by ID:', error);
+            throw error;
+        }
+    }
+
+    async getPokeIdDb(id) {
+        try {
+            const pokeId = await Pokemon.findByPk(id, {
+                include: {
+                    model: Type,
+                    attributes: ["name"],
+                    through: {
+                        attributes: [],
+                    },
+                },
+            });
+
+            if (!pokeId) {
+                throw new Error('Pokémon not found');
+            }
+
+            return {
+                id: pokeId.id,
+                name: pokeId.name,
+                attack: pokeId.attack,
+                types: pokeId.types.map((t) => t.name),
+                img: pokeId.img,
+                createdByUser: pokeId.createdByUser,
+                strength: pokeId.strength
+            };
+        } catch (error) {
+            console.error('Error fetching Pokémon by ID from database:', error);
             throw error;
         }
     }

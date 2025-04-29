@@ -5,6 +5,8 @@ class PokemonController {
     constructor() {
         this.pokemonService = new PokemonService();
         this.getAllpokemon = this.getAllpokemon.bind(this);
+        this.getPokename = this.getPokename.bind(this);
+        this.getPokeId = this.getPokeId.bind(this);
     }
 
     async getAllpokemon(req, res) {
@@ -30,6 +32,19 @@ class PokemonController {
             } else {
                 const allPokes = await this.pokemonService.getAllPokes();
                 res.status(200).json(allPokes);
+            }
+        } catch (error) {
+            res.status(500).json({ error: "Error fetching Pokémon data" });
+        }
+    }
+    async getPokeId(req, res) {
+        try {
+            const { id } = req.params;
+            const pokeId = await this.pokemonService.getPokeId(id);
+            if (pokeId.length === 0) {
+                res.status(404).json({ alert: "Pokemon not found" });
+            } else {
+                res.status(200).json(pokeId);
             }
         } catch (error) {
             res.status(500).json({ error: "Error fetching Pokémon data" });
