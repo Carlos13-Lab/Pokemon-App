@@ -7,7 +7,9 @@ class PokemonService {
         this.getAllPokes = this.getAllPokes.bind(this);
         this.getPokeId = this.getPokeId.bind(this);
         this.createPoke = this.createPoke.bind(this);
-    }
+        this.updatePoke = this.updatePoke.bind(this);
+        this.deletePoke = this.deletePoke.bind(this);
+    }   
 
     async getAllPokes() {
         try {
@@ -67,6 +69,16 @@ class PokemonService {
         }
     }
 
+    async deletePoke(id) {
+        try {
+            const deletedPoke = await this.pokemonRepository.deletePoke(id);
+            console.log("Pokémon eliminado:", deletedPoke);
+            return deletedPoke;
+        } catch (error) {
+            console.error(`Error en deletePoke: ${error.message}`);
+            throw new Error(`Error deleting Pokémon: ${error.message}`);
+        }
+    }
 }
 
 module.exports = PokemonService; 

@@ -16,6 +16,7 @@ class PokemonRepository {
         this.getPokeIdApiOrDb = this.getPokeIdApiOrDb.bind(this);
         this.populateTypesOnce = this.populateTypesOnce.bind(this);
         this.updatePoke = this.updatePoke.bind(this);
+        this.deletePoke = this.deletePoke.bind(this);
     }
     async populateTypesOnce() {
         try {
@@ -338,5 +339,23 @@ class PokemonRepository {
             throw new Error("Error al actualizar el Pokémon en el repositorio.");
         }
     }
+    async deletePoke(id) {
+        try {
+            // Buscar el Pokémon por ID
+            const pokemon = await Pokemon.findByPk(id);
+            if (!pokemon) {
+                throw new Error(`Pokémon con ID ${id} no encontrado.`);
+            }
+
+            // Eliminar el Pokémon
+            await pokemon.destroy();
+            return { message: `Pokémon con ID ${id} eliminado exitosamente.` };
+        } catch (error) {
+            console.error("Error eliminando el Pokémon:", error);
+            throw new Error("Error al eliminar el Pokémon en el repositorio.");
+        }
+    }
+
+
 }
 module.exports = PokemonRepository;

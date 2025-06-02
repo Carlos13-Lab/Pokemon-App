@@ -23,6 +23,9 @@ route.post("/", (req, res, next) => {
 route.put("/:id", (req, res, next) => {
     controller.updatePokemon(req, res, next); // Llama a updatePokemon
 });
+route.delete("/:id", (req, res, next) => {
+    controller.deletePokemon(req, res, next); // Llama a deletePokemon
+});
 
 
 
