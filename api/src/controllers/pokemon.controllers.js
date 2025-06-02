@@ -7,6 +7,7 @@ class PokemonController {
         this.getPokename = this.getPokename.bind(this);
         this.getPokeId = this.getPokeId.bind(this);
         this.createPokemon = this.createPokemon.bind(this);
+        this.updatePokemon = this.updatePokemon.bind(this);
     }
 
     async getAllpokemon(req, res) {
@@ -79,6 +80,20 @@ class PokemonController {
         } catch (error) {
             console.error("Error creando el Pokémon:", error.message);
             res.status(500).json({ error: "Error interno del servidor." });
+        }
+    }
+
+    async updatePokemon(req, res) {
+        try {
+            const { id } = req.params;
+            const pokeUpdate = await this.pokemonService.updatePoke(id, req.body);
+            if (!pokeUpdate) {
+                return res.status(404).json({ error: "Pokémon not found" });
+            }
+            res.status(200).json(pokeUpdate);
+        } catch (error) {
+            console.error("Error updating Pokémon:", error.message);
+            res.status(500).json({ error: "Error updating Pokémon data" });
         }
     }
 }

@@ -56,6 +56,17 @@ class PokemonService {
         }
     }
 
+    async updatePoke(id, poke) {
+        try {
+            const updatedPoke = await this.pokemonRepository.updatePoke(id, poke);
+            console.log("Pokémon actualizado:", updatedPoke);
+            return updatedPoke;
+        } catch (error) {
+            console.error(`Error en updatePoke: ${error.message}`);
+            throw new Error(`Error updating Pokémon: ${error.message}`);
+        }
+    }
+
 }
 
 module.exports = PokemonService; 

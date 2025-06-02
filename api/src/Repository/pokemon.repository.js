@@ -15,6 +15,7 @@ class PokemonRepository {
         this.getPokemonNameDbOrApi = this.getPokemonNameDbOrApi.bind(this);
         this.getPokeIdApiOrDb = this.getPokeIdApiOrDb.bind(this);
         this.populateTypesOnce = this.populateTypesOnce.bind(this);
+        this.updatePoke = this.updatePoke.bind(this);
     }
     async populateTypesOnce() {
         try {
@@ -308,5 +309,34 @@ class PokemonRepository {
         throw new Error("Error al crear el Pokémon en el repositorio.");
     }
 }
+
+    async updatePoke(id, poke) {
+        try {
+            // Buscar el Pokémon por ID
+            const pokemon = await Pokemon.findByPk(id);
+            if (!pokemon) {
+                throw new Error(`Pokémon con ID ${id} no encontrado.`);
+            }
+
+            // Actualizar los campos del Pokémon
+            await pokemon.update({
+                name: poke.name,
+                img: poke.img,
+                attack: poke.attack,
+                hp: poke.hp,
+                defense: poke.defense,
+                speed: poke.speed,
+                height: poke.height,
+                weight: poke.weight,
+                strength: poke.strength,
+                createdByUser: poke.createdByUser || true, // Por defecto, se asume que fue creado por un usuario
+            });
+
+            return pokemon; // Retornar el Pokémon actualizado
+        } catch (error) {
+            console.error("Error actualizando el Pokémon:", error);
+            throw new Error("Error al actualizar el Pokémon en el repositorio.");
+        }
+    }
 }
 module.exports = PokemonRepository;

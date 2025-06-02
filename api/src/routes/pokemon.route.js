@@ -17,7 +17,12 @@ route.get("/:id", (req, res, next) => {
     controller.getPokeId(req, res, next); // Llama a getPokeId
 });
 
-route.post("/", controller.createPokemon);
+route.post("/", (req, res, next) => {
+    controller.createPokemon(req, res, next); // Llama a createPokemon
+});
+route.put("/:id", (req, res, next) => {
+    controller.updatePokemon(req, res, next); // Llama a updatePokemon
+});
 
 
 
