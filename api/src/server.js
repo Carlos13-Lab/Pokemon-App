@@ -7,9 +7,11 @@ const {
 } = require('./routes/routes');
 const cors = require('cors');
 require('./database/config');
+const PokemonRepository = require("./Repository/Pokemon.repository");
+
 
 const server = express();
-
+const pokemonRepository = new PokemonRepository();
 server.name = 'API';
 
 server.use(cors())
@@ -25,6 +27,14 @@ server.use((req, res, next) => {
   next();
 });
 
+//Llamar al método para popular la base de datos una sola vez
+  (async () => {
+    try {
+      await pokemonRepository.populateTypesOnce();
+    } catch (error) {
+      console.error("Error al inicializar la base de datos:", error.message);
+    }
+  })();
 server.use('/api/pokemon', Pokemon);
 
 // Error catching endware.

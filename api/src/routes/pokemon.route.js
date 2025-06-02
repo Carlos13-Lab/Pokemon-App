@@ -17,6 +17,8 @@ route.get("/:id", (req, res, next) => {
     controller.getPokeId(req, res, next); // Llama a getPokeId
 });
 
+route.post("/", controller.createPokemon);
+
 
 
 module.exports = route;

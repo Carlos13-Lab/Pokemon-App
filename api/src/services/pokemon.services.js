@@ -5,8 +5,8 @@ class PokemonService {
     constructor() {
         this.pokemonRepository = new PokemonRepository();
         this.getAllPokes = this.getAllPokes.bind(this);
-        this.getPokename = this.getPokename.bind(this);
         this.getPokeId = this.getPokeId.bind(this);
+        this.createPoke = this.createPoke.bind(this);
     }
 
     async getAllPokes() {
@@ -19,59 +19,42 @@ class PokemonService {
             throw new Error("Error fetching all Pokémon data");
         }
     }
-    async getPokename(name) {
+    
+
+    async getPokemonByName(name) {
         try {
-            // Buscar en la API y en la base de datos en paralelo
-            const [pokeApi, pokemonDb] = await Promise.all([
-                this.pokemonRepository.getApiname(name),
-                this.pokemonRepository.getPokesDb(name),
-            ]);
-
-            // Combinar los resultados
-            const allPokes = [pokeApi, pokemonDb].filter(Boolean); // Filtrar valores nulos o undefined
-
-            // Si no se encuentra ningún Pokémon, lanzar un error
-            if (allPokes.length === 0) {
-                throw new Error(`El Pokémon con el nombre "${name}" no fue encontrado.`);
-            }
-
-            return allPokes;
+            const pokemon = await this.pokemonRepository.getPokemonNameDbOrApi(name);
+            return pokemon;
         } catch (error) {
-            console.error(`Error en getPokename: ${error.message}`);
-            throw new Error(`Error fetching Pokémon data by name: ${error.message}`);
-        }
+            console.error(`Error en getPokemonByName: ${error.message}`);
+            throw new Error(`Error fetching Pokémon by name: ${error.message}`);
+        }   
     }
+
 
     async getPokeId(id) {
         try {
-            // Validar si el ID es numérico o un UUID
-            const isNumericId = !isNaN(id); // Verifica si el ID es un número
-            const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id); // Verifica si es un UUID válido
-
-            if (!isNumericId && !isUuid) {
-                throw new Error(`El ID "${id}" no es válido. Debe ser un número o un UUID.`);
+            const pokeId = await this.pokemonRepository.getPokeIdApiOrDb(id);
+            if (pokeId.length === 0) {
+                throw new Error("Pokémon not found");
             }
-
-            // Buscar en la API si el ID es numérico
-            const pokeApi = isNumericId ? await this.pokemonRepository.getPokeId(id) : null; // Buscar por pokeApiId si es numérico
-            // Buscar en la base de datos
-            const pokemonDb = isNumericId
-                ? await this.pokemonRepository.getPokeId(id) // Buscar por pokeApiId si es numérico
-                : await this.pokemonRepository.getPokeIdDb(id)// Buscar por UUID si no es numérico
-
-            // Si no se encuentra ningún Pokémon, lanzar un error
-            if (!pokeApi && !pokemonDb) {
-                throw new Error(`El Pokémon con el ID "${id}" no fue encontrado.`);
-            }
-
-            return pokeApi || pokemonDb; // Retornar el Pokémon encontrado
+            return pokeId;
         } catch (error) {
             console.error(`Error en getPokeId: ${error.message}`);
             throw new Error(`Error fetching Pokémon data by ID: ${error.message}`);
         }
     }
 
-
+    async createPoke(poke) {
+        try {
+            const newPoke = await this.pokemonRepository.createPoke(poke);
+            console.log("Nuevo Pokémon creado:", newPoke);
+            return newPoke;
+        } catch (error) {
+            console.error(`Error en createPoke: ${error.message}`);
+            throw new Error(`Error creating Pokémon: ${error.message}`);
+        }
+    }
 
 }
 
