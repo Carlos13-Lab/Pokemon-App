@@ -1,4 +1,4 @@
-const PokemonRepository = require("../repository/pokemon.repository");
+const PokemonRepository = require("../Repository/pokemon.repository");
 
 
 class PokemonService {
