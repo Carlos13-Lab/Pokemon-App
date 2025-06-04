@@ -16,17 +16,34 @@ class Database {
     }
 
     _initializeSequelizeConnection(env, credentials) {
-        if (env === 'production') {
-            return new Sequelize(process.env.DATABASE_URL, {
-                logging: false,
-                native: false,
-            });
-        } else {
-            return new Sequelize(process.env.DATABASE_URL, {
-                logging: false,
-                native: false,
-            });
-        }
+    if(env === 'production') {
+    return new Sequelize({
+        database: credentials.DB_NAME,
+        dialect: 'postgres',
+        host: credentials.DB_HOST,
+        port: 5432,
+        username: credentials.DB_USER,
+        password: credentials.DB_PASSWORD,
+        pool: {
+            max: 3,
+            min: 1,
+            idle: 10000,
+        },
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false,
+            },
+            keepAlive: true,
+        },
+        ssl: true,
+    });
+    } else {
+        return new Sequelize(
+            `postgres://${credentials.DB_USER}:${credentials.DB_PASSWORD}@${credentials.DB_HOST}/${credentials.DB_NAME}`,
+            { logging: false, native: false }
+        );
+    }
     }
 
     _loadModels() {
