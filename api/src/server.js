@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 require('dotenv').config();
 const { conn } = require('./database/config.js'); // Importar la conexión a la base de datos
-const { Pokemon } = require('./routes/routes');
+const { Pokemon, Type } = require('./routes/routes');
 
 const server = express();
 server.name = 'API';
@@ -28,6 +28,7 @@ server.use((req, res, next) => {
 
 // Rutas
 server.use('/api/pokemon', Pokemon);
+server.use('/api/types', Type);
 
 // Error catching endware
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
