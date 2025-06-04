@@ -7,7 +7,7 @@ const {
 } = require('./routes/routes');
 const cors = require('cors');
 require('./database/config');
-const PokemonRepository = require("./Repository/Pokemon.repository.js");
+const PokemonRepository = require("./repository/Pokemon.repository.js");
 
 
 
