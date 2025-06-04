@@ -7,8 +7,12 @@ const {
 } = require('./routes/routes');
 const cors = require('cors');
 require('./database/config');
-const PokemonRepository = require("./repository/pokemon.repository.js");
-
+try {
+  const PokemonRepository = require("../Repository/Pokemon.repository");
+} catch (error) {
+  console.error("Error cargando el módulo Pokemon.repository:", error.message);
+  throw error;
+}
 
 
 const server = express();
