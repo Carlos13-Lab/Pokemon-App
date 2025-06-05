@@ -16,3 +16,14 @@ export const createPokemon = async (pokemonData) => {
     const response = await axios.post(`${API_URL}/pokemon`, pokemonData);
     return response.data;
 };
+
+
+export const updatePokemon = async (id, pokemonData) => {
+    const response = await axios.put(`${API_URL}/pokemon/${id}`, pokemonData);
+    return response.data;
+}
+
+export const deletePokemon = async (id) => {
+    const response = await axios.delete(`${API_URL}/pokemon/${id}`);
+    return response.data;
+}
