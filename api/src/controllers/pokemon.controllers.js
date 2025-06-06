@@ -4,7 +4,8 @@ class PokemonController {
     constructor() {
         this.pokemonService = new PokemonService();
         this.getAllpokemon = this.getAllpokemon.bind(this);
-        this.getPokename = this.getPokename.bind(this);
+        this.getPokename = this.getPokenameApi.bind(this);
+        this.getPokenameDb = this.getPokenameDb.bind(this);
         this.getPokeId = this.getPokeId.bind(this);
         this.createPokemon = this.createPokemon.bind(this);
         this.updatePokemon = this.updatePokemon.bind(this);
@@ -19,7 +20,7 @@ class PokemonController {
         }
     }
 
-    async getPokename(req, res) {
+    async getPokenameApi(req, res) {
         try {
             const { name } = req.query;
             if (!name) {
@@ -38,6 +39,24 @@ class PokemonController {
             res.status(500).json({ error: "Error fetching Pokémon data by name" });
     }
     }
+
+    async getPokenameDb(req, res) {
+        try {
+            const { name } = req.query;
+            if (!name) {
+                return res.status(400).json({ error: "Name query parameter is required" });
+            }
+            const pokemonDb = await this.pokemonService.getPokemonByNameDb(name);
+            if (!pokemonDb) {
+                return res.status(404).json({ alert: "Pokemon not found in database" });
+            }
+            res.status(200).json(pokemonDb);
+        } catch (error) {
+            console.error("Error fetching Pokémon by name from database:", error.message);
+            res.status(500).json({ error: "Error fetching Pokémon data from database" });
+        }
+    }
+
     async getPokeId(req, res) {
         try {
             const { id } = req.params;
