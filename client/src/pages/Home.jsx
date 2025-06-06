@@ -8,10 +8,10 @@ import {
   orderByStrength,
   getTypes,
 } from "../actions";
-import Card from "./Card";
-import Paginate from "./Paginate";
+import Card from "../components/Card";
+import Paginate from "../components/Paginate";
 import { MdRefresh } from "react-icons/md";
-import Nav from "./Nav";
+import Nav from "../components/Nav";
 import ReactLoading from "react-loading";
 import "./Home.css";
 

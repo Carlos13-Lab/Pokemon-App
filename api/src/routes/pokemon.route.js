@@ -6,10 +6,13 @@ const controller = new PokemnonController();
 const route = Router();
 
 route.get("/name", (req, res, next) => {
-    controller.getPokename(req, res, next); // Llama a getPokename
+    controller.getPokenameApi(req, res, next); // Llama a getPokename
 });
 route.get("/", (req, res, next) => {
     controller.getAllpokemon(req, res, next); // Llama a getAllpokemon
+});
+route.get("/db/name", (req, res, next) => {
+    controller.getPokenameDb(req, res, next); // Llama a getPokenameDb
 });
 
 route.get("/:id", (req, res, next) => {

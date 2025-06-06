@@ -22,10 +22,10 @@ class Database {
                 native: false,
             });
         } else {
-            return new Sequelize(process.env.DATABASE_URL, {
-                logging: false,
-                native: false,
-            });
+            return new Sequelize(
+                `postgres://${credentials.DB_USER}:${credentials.DB_PASSWORD}@${credentials.DB_HOST}/${credentials.DB_NAME}`,
+                { logging: false, native: false }
+            );
         }
     }
 

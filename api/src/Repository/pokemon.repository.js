@@ -12,11 +12,12 @@ class PokemonRepository {
         this.getPokeApi = this.getPokeApi.bind(this);
         this.getPokesDb = this.getPokesDb.bind(this);
         this.getPokeId = this.getPokeId.bind(this);
-        this.getPokemonNameDbOrApi = this.getPokemonNameDbOrApi.bind(this);
         this.getPokeIdApiOrDb = this.getPokeIdApiOrDb.bind(this);
         this.populateTypesOnce = this.populateTypesOnce.bind(this);
         this.updatePoke = this.updatePoke.bind(this);
         this.deletePoke = this.deletePoke.bind(this);
+        this.getPokemonByName   = this.getPokemonByName.bind(this);
+        this.getPokemonByNameDb = this.getPokemonByNameDb.bind(this);
     }
     async populateTypesOnce() {
         try {
@@ -151,31 +152,6 @@ class PokemonRepository {
         }
     }   
 
-    async getPokemonNameDbOrApi(name) {
-        try {
-            if (!name) {
-                throw new Error('Name parameter is required');
-            } else {
-                name = name.toLowerCase(); // Normaliza el nombre a minúsculas para la búsqueda
-            }
-            // Primero, intenta buscar en la base de datos
-            const pokemonDb = await this.getPokemonByNameDb(name);
-            if (pokemonDb) {
-                return pokemonDb; // Si se encuentra en la base de datos, retorna el Pokémon
-            }
-            // Si no se encuentra en la base de datos, intenta buscar en la API
-            const pokemonApi = await this.getPokemonByName(name);
-            if (pokemonApi) {
-                return pokemonApi; // Si se encuentra en la API, retorna el Pokémon
-            }
-            // Si no se encuentra en ninguna parte, lanza un error
-            throw new Error(`Pokémon with name "${name}" not found in database or API.`);
-        }
-        catch (error) {
-            console.error(`Error fetching Pokémon by name from database or API: ${error.message}`);
-            throw new Error(`Error fetching Pokémon by name: ${error.message}`);
-        }
-    }
     async getPokeId(id) {   
         try {
             const { data } = await axios.get(`${this.urlAll}${id}`);

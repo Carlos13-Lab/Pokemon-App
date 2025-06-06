@@ -1,4 +1,4 @@
-const PokemonRepository = require("../Repository/pokemon.repository");
+const PokemonRepository = require("../Repository/pokemon.repository.js");
 
 
 class PokemonService {
@@ -25,7 +25,7 @@ class PokemonService {
 
     async getPokemonByName(name) {
         try {
-            const pokemon = await this.pokemonRepository.getPokemonNameDbOrApi(name);
+            const pokemon = await this.pokemonRepository.getPokemonByName(name);
             return pokemon;
         } catch (error) {
             console.error(`Error en getPokemonByName: ${error.message}`);
@@ -33,7 +33,19 @@ class PokemonService {
         }   
     }
 
-
+    async getPokemonByNameDb(name) {
+        try {
+            const pokemonDb = await this.pokemonRepository.getPokemonByNameDb(name);
+            if (!pokemonDb) {
+                throw new Error("Pokémon not found in database");
+            }
+            return pokemonDb;
+        } catch (error) {
+            console.error(`Error en getPokemonByNameDb: ${error.message}`);
+            throw new Error(`Error fetching Pokémon by name from database: ${error.message}`);
+        }
+    }
+    
     async getPokeId(id) {
         try {
             const pokeId = await this.pokemonRepository.getPokeIdApiOrDb(id);
