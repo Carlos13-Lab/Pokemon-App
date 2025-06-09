@@ -24,7 +24,6 @@ export const getPokemonByNameDb = async (name) => {
 
 export const getTypes = async () => {
     const response = await axios.get(`${API_URL}/types`);
-    console.log(response.data);
     return response.data;
 };
 

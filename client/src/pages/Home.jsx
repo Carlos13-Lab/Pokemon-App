@@ -122,7 +122,7 @@ const handleSearch = async (name) => {
         </select>
         <select className="formSelect" onChange={handleFilterPokemonsCreated}>
           <option value="All">All</option>
-          <option value="Api">API</option>
+          <option value="Api">Api</option>
           <option value="Created">Created</option>
         </select>
         <select className="formSelect" onChange={handleFilterType}>

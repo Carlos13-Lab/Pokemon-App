@@ -36,7 +36,6 @@ const usePokemonStore = create(
             try {
                 const response = await ApiService.getTypes();
                 const data = response.map((type) => type.name); // Extraer solo los nombres de los tipos
-                console.log(data)
                 // Asegurarse de que 'data' sea un array
                 if (!Array.isArray(data)) {
                     throw new Error("Datos de tipos no válidos");

@@ -13,7 +13,7 @@ export default function Nav({ onSearch }) {
         <SearchBar onSearch={onSearch}/>
       </div>
       <div className='divBtn'>
-        <Link to='/pokemons'>
+        <Link to='/create'>
           {" "}
           <button className='btnCreated'>Create Pokemon</button>
         </Link>
