@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { postPokemon, } from "../actions";
-import "./PokemonCreate.css";
+// import { postPokemon, } from "../actions";
+// import "./PokemonCreate.css";
 
 function validate(input) {
   let errors = {};
@@ -85,7 +85,7 @@ export default function PokemonCreate(props) {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(postPokemon(input));
+    // dispatch(postPokemon(input));
     alert("Pokemon Created");
     setInput({
       name: "",
