@@ -1,6 +1,6 @@
 const express = require('express');
 const { Pokemon, Type } = require('../database/config')
-const urlLimit40 = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=100` // Cambiado a 1000 para obtener más Pokémon
+const urlLimit40 = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=40` // Cambiado a 80para obtener más Pokémon
 const urlAll = `http://pokeapi.co/api/v2/pokemon/`
 const axios = require('axios');
 const { Op } = require("sequelize");
