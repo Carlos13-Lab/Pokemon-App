@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-axios.defaults.baseURL = "http://localhost:5000/api"; // URL base para las peticiones a la API
+axios.defaults.baseURL = "https://pokemon-app-2-9p14.onrender.com/api" 
 
 // Crear el root para renderizar la aplicación
 const root = ReactDOM.createRoot(document.getElementById('root'));

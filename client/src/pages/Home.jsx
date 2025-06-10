@@ -24,7 +24,7 @@ const Home = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchResult, setSearchResult] = useState(null);
-  const pokemonsPerPage = 7;
+  const pokemonsPerPage = 9;
   const [filteredPokemons, setFilteredPokemons] = useState([]);
 
 
