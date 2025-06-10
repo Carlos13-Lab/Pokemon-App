@@ -1,21 +1,33 @@
 import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import usePokemonStore from "../store/PokemonStore"; // Importar el store de Zustand
 import "../styles/Detail/Detail.css";
 import ReactLoading from "react-loading";
 
 export default function Detail() {
   const { id } = useParams(); // Obtener el ID de los parámetros de la URL
-  const { pokemonDetail, loading, fetchPokemonById } = usePokemonStore(); // Obtener el estado y las acciones del store
-
+  const { pokemonDetail, loading, fetchPokemonById, deletePokemon } =
+    usePokemonStore();
   useEffect(() => {
     fetchPokemonById(id); 
     // Obtener el detalle del Pokémon al montar el componente
   }, [id, fetchPokemonById]);
+  const history = useHistory(); // Usar el hook useHistory para redirigir
+
+    const handleDelete = async () => {
+    const confirmDelete = window.confirm(
+      "¿Estás seguro de que deseas eliminar este Pokémon?"
+    );
+    if (confirmDelete) {
+      await deletePokemon(id); // Llama a la acción para eliminar el Pokémon
+      history.push("/home"); // Redirige a la página de inicio después de eliminar
+      alert("Pokémon eliminado con éxito."); // Mensaje de éxito
+    }
+  };
 
   if (loading) {
     return (
-      <div>
+      <div className="loadingContainer">
         <p>LOADING...</p>
         <ReactLoading
           className="spinner"
@@ -23,6 +35,7 @@ export default function Detail() {
           color={"#ee9b00"}
           height={"10%"}
           width={"10%"}
+          timeout={4000} // Tiempo de espera para el spinner
         />
       </div>
     );
@@ -43,6 +56,11 @@ export default function Detail() {
             <Link to="/home">
               <button className="btnBack">Back</button>
             </Link>
+                 {pokemonDetail.createdByUser && (
+              <button className="btnDelete" onClick={handleDelete}>
+                Delete
+              </button>
+            )}
           </div>
           <div className="midInf">
             <div className="name">
@@ -54,10 +72,6 @@ export default function Detail() {
                   )}
                 </h1>
               </strong>
-            </div>
-            <div className="heWe">
-              <span>Height: {pokemonDetail.height}</span>
-              <span>Weight: {pokemonDetail.weight}</span>
             </div>
             <div className="stats">
               <span id="hp">

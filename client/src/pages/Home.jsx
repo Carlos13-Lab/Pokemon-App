@@ -11,7 +11,7 @@ const Home = () => {
   const {
     pokemons,
     types,
-    isLoading,
+    loading,
     fetchPokemons,
     fetchTypes,
     filterPokemonsCreated,
@@ -169,7 +169,7 @@ const handleFilterPokemonsCreated = (e) => {
 
 
       <div className="listPokemon">
-  {isLoading ? (
+  {loading ? (
     <ReactLoading
       className="spinner"
       type="spinningBubbles"
