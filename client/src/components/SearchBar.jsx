@@ -12,7 +12,6 @@ const SearchBar = ({ onSearch }) => {
   const handleSubmit = (e) => {
   e.preventDefault();
   if (name.trim()) {
-    console.log("Searching for:", name); // Verificar el valor de búsqueda
     onSearch(name); // Llamar al callback `onSearch`
     setName(""); // Limpiar el input después de enviar
   }

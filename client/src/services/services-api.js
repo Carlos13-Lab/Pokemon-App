@@ -10,6 +10,7 @@ export const getAllPokemon = async () => {
 
 export const getPokemonById = async (id) => {
     const response = await axios.get(`${API_URL}/pokemon/${id}`);
+    console.log("Response from getPokemonById:", response.data);
     return response.data;
 };
 export const getPokemonByName = async (name) => {

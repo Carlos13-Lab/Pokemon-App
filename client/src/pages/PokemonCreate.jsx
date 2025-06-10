@@ -5,7 +5,6 @@ import "../styles/Create/PokemonCreate.css"; // Ajustar la ruta según sea neces
 
 function validate(input) {
   let errors = {};
-  console.log(errors)
     if (!input.name) errors.name = "Required name";
   if (!input.img) errors.img = "Required Img";
   if (input.height <= 0 || input.height > 10000)

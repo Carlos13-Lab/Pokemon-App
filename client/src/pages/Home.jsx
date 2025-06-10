@@ -15,7 +15,6 @@ const Home = () => {
     fetchPokemons,
     fetchTypes,
     filterPokemonsCreated,
-    filterPokemonByType,
     orderPokemonsByName,
     fetchPokemonByName,
     orderPokemonsByStrength,
@@ -24,8 +23,11 @@ const Home = () => {
   } = usePokemonStore(); // Obtener el estado y las acciones desde el store
 
   const [currentPage, setCurrentPage] = useState(1);
-   const [searchResult, setSearchResult] = useState(null);
+  const [searchResult, setSearchResult] = useState(null);
   const pokemonsPerPage = 7;
+  const [filteredPokemons, setFilteredPokemons] = useState([]);
+
+
   const [orden, setOrden] = useState("");
   // Obtener Pokémon y tipos al montar el componente
   useEffect(() => {
@@ -33,9 +35,10 @@ const Home = () => {
       await fetchPokemons();
       await fetchTypes();
       await fetchPokemonByName(""); // Inicializar la búsqueda con un término vacío
+      setFilteredPokemons(pokemons); // Inicializar los Pokémon filtrados con todos los Pokémon
     };
     fetchData();
-  }, [fetchPokemons, fetchTypes, fetchPokemonByName]);
+  }, [ fetchPokemons, fetchTypes]);
 
   // Función para manejar la paginación
   const paginado = (pageNumber) => setCurrentPage(pageNumber);
@@ -43,41 +46,66 @@ const Home = () => {
   // Función para refrescar la lista de Pokémon
   const handleRefresh = (e) => {
     e.preventDefault();
-    fetchPokemons();
+    fetchPokemons(); // Volver a obtener todos los Pokémon
+    setFilteredPokemons(pokemons); // Reiniciar los Pokémon filtrados
+    setCurrentPage(1); // Reiniciar la paginación
+    setSearchResult(null); // Limpiar el resultado de búsqueda
+    setOrden(""); // Limpiar el orden
   };
 
-  // Función para filtrar Pokémon creados o de la API
-  const handleFilterPokemonsCreated = (e) => filterPokemonsCreated(e.target.value);
-
   // Función para filtrar Pokémon por tipo
-  const handleFilterType = (e) => {
-    e.preventDefault();
-    filterPokemonByType(e.target.value);
-    setCurrentPage(1);
-    setOrden(`Filtrado por tipo: ${e.target.value}`);
+ const handleFilterType = (e) => {
+    const selectedType = e.target.value;
+    const filtered = pokemons.filter((pokemon) =>
+      pokemon.types && pokemon.types.includes(selectedType)
+    );
+
+    if (filtered.length === 0) {
+      alert(`No se encontraron Pokémon para el tipo: ${selectedType}`); // Mostrar alerta si no hay resultados
+      setFilteredPokemons(pokemons); // Reiniciar a todos los Pokémon si no hay resultados
+      return;
+    }
+
+    setFilteredPokemons(filtered); // Actualizar el estado con los Pokémon filtrados
+    setCurrentPage(1); // Reiniciar la paginación
   };
 
   // Función para ordenar Pokémon por nombre
   const handleOrderByName = (e) => {
-    e.preventDefault();
-    if (e.target.value !== "Alphabet") {
-      orderPokemonsByName(e.target.value);
-      setCurrentPage(1);
-      setOrden(`Ordenado por nombre: ${e.target.value}`);
+    const order = e.target.value;
+    if (order === "Asc" || order === "Desc") {
+      orderPokemonsByName(order); // Llamar a la función del store
+      setFilteredPokemons(pokemons); // Sincronizar el estado local con los datos ordenados
+      setCurrentPage(1); // Reiniciar la paginación
+      setOrden(`Ordenado por nombre: ${order}`); // Actualizar el estado de orden
     }
   };
+
+const handleFilterPokemonsCreated = (e) => {
+  const value = e.target.value;
+  if (value === "Created") {
+    const filtered = pokemons.filter((pokemon) => pokemon.createdByUser); // Filtrar solo los creados por el usuario
+    setFilteredPokemons(filtered); // Actualizar el estado con los Pokémon filtrados
+  } else {
+    setFilteredPokemons(pokemons); // Mostrar todos los Pokémon si se selecciona "All"
+  }
+  setCurrentPage(1); // Reiniciar la paginación
+  setOrden(`Filtrado por: ${value}`); // Actualizar el estado de orden
+};
+
 
   // Función para ordenar Pokémon por fuerza
-  const handleOrderByStrength = (e) => {
-    e.preventDefault();
-    if (e.target.value !== "MAX-MIN") {
-      orderPokemonsByStrength(e.target.value);
-      setCurrentPage(1);
-      setOrden(`Ordenado por fuerza: ${e.target.value}`);
+  const handleOrderByAttack = (e) => {
+    const order = e.target.value;
+    if (order === "Max" || order === "Min") {
+      orderPokemonsByStrength(order); // Llamar a la función del store
+      setFilteredPokemons(pokemons); // Sincronizar el estado local con los datos ordenados
+      setCurrentPage(1); // Reiniciar la paginación
+      setOrden(`Ordenado por fuerza: ${order}`); // Actualizar el estado de orden
     }
   };
 
-const handleSearch = async (name) => {
+  const handleSearch = async (name) => {
     try {
         // Intentar buscar en la API
         let result = await fetchPokemonByName(name);
@@ -106,7 +134,7 @@ const handleSearch = async (name) => {
   // Calcular los Pokémon actuales para la paginación
   const indexOfLastPokemon = currentPage * pokemonsPerPage;
   const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage;
-  const currentPokemons = pokemons.slice(indexOfFirstPokemon, indexOfLastPokemon);
+  const currentPokemons = filteredPokemons.slice(indexOfFirstPokemon, indexOfLastPokemon);
 
   return (
     <div>
@@ -117,12 +145,11 @@ const handleSearch = async (name) => {
         </button>
         <select className="formSelect" onChange={handleOrderByName}>
           <option>Alphabet</option>
-          <option value="asc">A-z</option>
-          <option value="desc">Z-a</option>
+          <option value="Asc">A-z</option>
+          <option value="Desc">Z-a</option>
         </select>
         <select className="formSelect" onChange={handleFilterPokemonsCreated}>
           <option value="All">All</option>
-          <option value="Api">Api</option>
           <option value="Created">Created</option>
         </select>
         <select className="formSelect" onChange={handleFilterType}>
@@ -132,20 +159,14 @@ const handleSearch = async (name) => {
           </option>
         ))}
       </select>
-        <select className="formSelect" onChange={handleOrderByStrength}>
-          <option>MAX-MIN</option>
-          <option value="Max">Max Strength</option>
-          <option value="Min">Min Strength</option>
+        <select className="formSelect" onChange={handleOrderByAttack}>
+          <option>Max-Min</option>
+          <option value="Max">Max</option>
+          <option value="Min">Min</option>
         </select>
       </div>
 
-      <div className="paginate">
-        <Paginate
-          pokemonsPerPage={pokemonsPerPage}
-          allPokemons={pokemons.length}
-          paginado={paginado}
-        />
-      </div>
+
 
       <div className="listPokemon">
   {isLoading ? (
@@ -164,7 +185,6 @@ const handleSearch = async (name) => {
         name={searchResult.name}
         img={searchResult.img}
         types={searchResult.types}
-        strength={searchResult.strength}
       />
     ) : (
       <p>Pokémon no encontrado</p>
@@ -177,13 +197,22 @@ const handleSearch = async (name) => {
         name={pokemon.name}
         img={pokemon.img}
         types={pokemon.types}
-        strength={pokemon.strength}
       />
     ))
   )}
 </div>
+      <div className="paginate">
+        <Paginate
+          pokemonsPerPage={pokemonsPerPage}
+          allPokemons={filteredPokemons.length}
+          paginado={paginado}
+        />
+      </div>
     </div>
   );
+  
+  
 };
+
 
 export default Home;

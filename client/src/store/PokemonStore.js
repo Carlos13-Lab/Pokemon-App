@@ -5,6 +5,7 @@ import ApiService from "../services/services-api"; // Asegúrate de que la ruta 
 const usePokemonStore = create(
     persist((set) => ({
         pokemons: [], // Estado inicial para la lista de Pokémon
+        pokemonDetail: null, // Estado para los detalles de un Pokémon específico
         types: [], // Estado para los tipos de Pokémon
         selectedPokemon: null, // Estado para el Pokémon seleccionado
         loading: false, // Estado para manejar la carga
@@ -26,7 +27,10 @@ const usePokemonStore = create(
             set({ loading: true, error: null });
             try {
                 const data = await ApiService.getPokemonById(id);
-                set({ selectedPokemon: data, loading: false });
+                if (!data || !data.name) {
+                    throw new Error("Pokémon no encontrado");
+                }
+                set({ pokemonDetail: data, loading: false });
             } catch (error) {
                 set({ error: error.message, loading: false });
             }
@@ -45,6 +49,47 @@ const usePokemonStore = create(
             } catch (error) {
                 console.error("Error fetching types:", error);
             }
+        },
+
+        // Acción para filtrar Pokémon por tipo
+        filterPokemonByType: (type) => {
+            set((state) => {
+                if (type === "All") {
+                    return { filteredPokemons: state.allPokemons }; // Mostrar todos los Pokémon
+                }
+                const filtered = state.allPokemons.filter((pokemon) =>
+                    pokemon.types && pokemon.types.includes(type)
+                );
+                return { filteredPokemons: filtered }; // Actualizar el estado con los Pokémon filtrados
+            });
+        },
+        // Acción para ordenar Pokémon por nombre
+        orderPokemonsByName: (order) => {
+            set((state) => {
+                const sortedPokemons = [...state.pokemons].sort((a, b) => {
+                    if (order === "Desc") {
+                        return a.name.localeCompare(b.name); // Orden ascendente
+                    } else if (order === "Asc") {
+                        return b.name.localeCompare(a.name); // Orden descendente
+                    }
+                    return 0;
+                });
+                return { pokemons: sortedPokemons }; // Actualizar el estado con los Pokémon ordenados
+            });
+        },
+        // Acción para ordenar Pokémon por fuerza
+        orderPokemonsByStrength: (order) => {
+            set((state) => {
+                const sortedPokemons = [...state.pokemons].sort((a, b) => {
+                    if (order === "Max") {
+                        return b.attack - a.attack; // Orden descendente por fuerza (mayor a menor)
+                    } else if (order === "Min") {
+                        return a.attack - b.attack; // Orden ascendente por fuerza (menor a mayor)
+                    }
+                    return 0;
+                });
+                return { pokemons: sortedPokemons }; // Actualizar el estado con los Pokémon ordenados
+            });
         },
 
         fetchPokemonByName: async (name) => {
