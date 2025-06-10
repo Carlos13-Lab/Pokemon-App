@@ -1,6 +1,6 @@
 const express = require('express');
 const { Pokemon, Type } = require('../database/config')
-const urlLimit40 = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=26/`
+const urlLimit40 = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=100` // Cambiado a 1000 para obtener más Pokémon
 const urlAll = `http://pokeapi.co/api/v2/pokemon/`
 const axios = require('axios');
 const { Op } = require("sequelize");
@@ -57,7 +57,13 @@ class PokemonRepository {
                             name: Todos.name,
                             img: Todos.sprites.other.home.front_default,
                             attack: Todos.stats[1].base_stat,
+                            hp: Todos.stats[0].base_stat, // Agregar HP
+                            defense: Todos.stats[2].base_stat, // Agregar Defensa
+                            speed: Todos.stats[5].base_stat, // Agregar Velocidad
+
                             types: Todos.types.map((e) => e.type.name),
+                            strength: Todos.strength || 0, // Asignar un valor por defecto si no existe
+                            createdByUser: false // Asumimos que los Pokémon de la API no son creados por usuarios
                         };
                     } catch (error) {
                         console.error(`Error fetching data for ${pokemon.name}:`, error);
@@ -109,6 +115,10 @@ class PokemonRepository {
                 name: data.name,
                 img: data.sprites.other.home.front_default,
                 attack: data.stats[1].base_stat,
+                hp: data.stats[0].base_stat, // Agregar HP
+                defense: data.stats[2].base_stat, // Agregar Defensa
+                speed: data.stats[5].base_stat, // Agregar Velocidad
+                strength: data.strength || 0, // Asignar un valor por defecto si no existe
                 types: data.types.map((e) => e.type.name),
             };
             return poke;
@@ -142,7 +152,10 @@ class PokemonRepository {
                 name: pokemon.name,
                 attack: pokemon.attack,
                 types: pokemon.types.map((t) => t.name),
-                img: pokemon.img,   
+                img: pokemon.img,
+                hp: pokemon.hp, // Agregar HP
+                defense: pokemon.defense, // Agregar Defensa
+                speed: pokemon.speed, // Agregar Velocidad
                 createdByUser: pokemon.createdByUser,
                 strength: pokemon.strength
             };
@@ -159,8 +172,12 @@ class PokemonRepository {
                 id: data.id,
                 name: data.name,
                 img: data.sprites.other.home.front_default,
+                hp: data.stats[0].base_stat, // Agregar HP
+                defense: data.stats[2].base_stat, // Agregar Defensa
+                speed: data.stats[5].base_stat, // Agregar Velocidad
                 attack: data.stats[1].base_stat,
                 types: data.types.map((e) => e.type.name),
+                strength: data.strength || 0, // Asignar un valor por defecto si no existe
             };
             return poke;
         } catch (error) {
@@ -189,6 +206,9 @@ class PokemonRepository {
                 id: pokeId.id,
                 name: pokeId.name,
                 attack: pokeId.attack,
+                hp: pokeId.hp,
+                defense: pokeId.defense,
+                speed: pokeId.speed,
                 types: pokeId.types.map((t) => t.name),
                 img: pokeId.img,
                 createdByUser: pokeId.createdByUser,
