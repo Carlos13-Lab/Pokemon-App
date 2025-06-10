@@ -1,79 +1,119 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getDetail, resetDetail } from "../actions";
-import "./Detail.css";
+import usePokemonStore from "../store/PokemonStore"; // Importar el store de Zustand
+import "../styles/Detail/Detail.css";
 import ReactLoading from "react-loading";
 
 export default function Detail() {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  let pokemon = useSelector((state) => state.detail);
+  const { id } = useParams(); // Obtener el ID de los parámetros de la URL
+  const { pokemonDetail, loading, fetchPokemonById } = usePokemonStore(); // Obtener el estado y las acciones del store
+
   useEffect(() => {
-    dispatch(getDetail(id));
-  }, [id, dispatch]);
-  function clearDetail() {
-    dispatch(resetDetail());
+    fetchPokemonById(id); 
+    // Obtener el detalle del Pokémon al montar el componente
+  }, [id, fetchPokemonById]);
+
+  if (loading) {
+    return (
+      <div>
+        <p>LOADING...</p>
+        <ReactLoading
+          className="spinner"
+          type={"spinningBubbles"}
+          color={"#ee9b00"}
+          height={"10%"}
+          width={"10%"}
+        />
+      </div>
+    );
+  }
+
+  if (!pokemonDetail) {
+    return <p>No se encontró el Pokémon con el ID: {id}.</p>;
   }
 
   return (
-    <div className='detailRender'>
-      {pokemon.length > 0 ? (
-        <div className='detailCard'>
-          <div className='image'>
-            <img src={pokemon[0].img} alt='' />
+    <div className="detailRender">
+      <div className="detailCard">
+        <div className="image">
+          <img src={pokemonDetail.img} alt={pokemonDetail.name} />
+        </div>
+        <div className="midRight">
+          <div className="midSup">
+            <Link to="/home">
+              <button className="btnBack">Back</button>
+            </Link>
           </div>
-          <div className='midRight'>
-            <div className='midSup'>
-              <Link to='/home'>
-                <button className='btnBack' onClick={clearDetail}>
-                  Back
-                </button>
-              </Link>
+          <div className="midInf">
+            <div className="name">
+              <strong>
+                <h1>
+                  {pokemonDetail.name.replace(
+                    pokemonDetail.name.charAt(0),
+                    pokemonDetail.name.charAt(0).toUpperCase()
+                  )}
+                </h1>
+              </strong>
             </div>
-            <div className='midInf'>
-              <div className='name'>
-               <strong>   <h1>{pokemon[0].name.replace(pokemon[0].name.charAt(0), pokemon[0].name.charAt(0).toUpperCase())}</h1></strong>
-              </div>
-              <div className='heWe'>
-                <span> Height: {pokemon[0].height}</span>
-                <span> Weitgh: {pokemon[0].weight}</span>
-              </div>
-              <div className='stats'>
-                <span id='hp'>
-                  Hp: <progress className='progress' id='hp' max='200' value={pokemon[0].hp} /> {pokemon[0].hp}
-                </span>
-                <span id='speed'>
-                  Speed:
-                  <progress className='progress' id='speed' max='200' value={pokemon[0].speed} /> {pokemon[0].speed}
-                </span>
-                <span id='attack'>
-                  Attack: <progress className='progress' id='attack' max='200' value={pokemon[0].attack} /> {pokemon[0].attack}
-                </span>
-                <span id='defense'>
-                  Defense: <progress className='progress' id='defense' max='200' value={pokemon[0].defense} /> {pokemon[0].defense}
-                </span>
-              </div>
-              <div className='types'>
-                <h4 className='h4'>
-                  Types:{" "}
-                  {pokemon[0].types?.map((e) => (
-                    <div id={e} key={e} className='type'>
-                      <span key={e}> {e[0].toUpperCase() + e.slice(1)}</span>
-                    </div>
-                  ))}
-                </h4>
-              </div>
+            <div className="heWe">
+              <span>Height: {pokemonDetail.height}</span>
+              <span>Weight: {pokemonDetail.weight}</span>
+            </div>
+            <div className="stats">
+              <span id="hp">
+                Hp:{" "}
+                <progress
+                  className="progress"
+                  id="hp"
+                  max="200"
+                  value={pokemonDetail.hp}
+                />{" "}
+                {pokemonDetail.hp}
+              </span>
+              <span id="speed">
+                Speed:{" "}
+                <progress
+                  className="progress"
+                  id="speed"
+                  max="200"
+                  value={pokemonDetail.speed}
+                />{" "}
+                {pokemonDetail.speed}
+              </span>
+              <span id="attack">
+                Attack:{" "}
+                <progress
+                  className="progress"
+                  id="attack"
+                  max="200"
+                  value={pokemonDetail.attack}
+                />{" "}
+                {pokemonDetail.attack}
+              </span>
+              <span id="defense">
+                Defense:{" "}
+                <progress
+                  className="progress"
+                  id="defense"
+                  max="200"
+                  value={pokemonDetail.defense}
+                />{" "}
+                {pokemonDetail.defense}
+              </span>
+            </div>
+            <div className="types">
+              <h4 className="h4">
+                Types:{" "}
+                {pokemonDetail.types?.map((type) => (
+                  <div id={type} key={type} className="type">
+                    <span>{type[0].toUpperCase() + type.slice(1)}</span>
+                  </div>
+                ))}
+              </h4>
             </div>
           </div>
         </div>
-      ) : (
-        <div>
-          <p  >LOADING...</p>
-          <ReactLoading className='spinner' type={"spinningBubbles"}
-           color={"#ee9b00"} height={"10%"} width={"10%"} />
-        </div>
-      )}
+      </div>
     </div>
   );
 }

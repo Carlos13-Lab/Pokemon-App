@@ -14,7 +14,7 @@
     border-width: 2px;
     border-color: #d6e2e7;
     border-radius: 0.5rem;
-  
+    color: #ffffff;
     font-size: 1.5rem;
   }
   
@@ -31,7 +31,7 @@
     font-size: 1rem;
     color: #ffffff;
       cursor: pointer;
-  
+    
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,15 +1,8 @@
-import React,{useEffect} from "react";  
-import "./LandingPage.css"
+import "../styles/LandingPage/LandingPage.css"; // Adjust the path as necessary 
 import {Link} from "react-router-dom";
-
-  import { useDispatch, } from "react-redux";
 
 export default function LandingPage(){
 
-    const dispatch = useDispatch()
-    useEffect(() => {
-  
-      }, [dispatch]); 
     return(
         <div className='body-landing'>
             
