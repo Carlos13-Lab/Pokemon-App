@@ -1,7 +1,6 @@
 import axios from "axios";
-
-// const API_URL = "https://pokemon-app-2-9p14.onrender.com/api";
-const API_URL= "http://localhost:5000/api"; // Local development URL
+ const API_URL = "https://pokemon-app-2-9p14.onrender.com/api";
+//nst API_URL= "http://localhost:5000/api"; // Local development URL
 
 export const getAllPokemon = async () => {
     const response = await axios.get(`${API_URL}/pokemon`);
